@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AppIncendio</string>
+    <string name="titulo_ingreso">Ingreso de usuario</string>
+    <string name="hint_usuario">Ingresa tu usuario o RUT</string>
+    <string name="hint_contrasena">Contraseña</string>
+    <string name="btn_ingresar">Ingresar</string>
+    <string name="txt_crear_cuenta">¿No tienes una cuenta? Crear cuenta</string>
+</resources>
