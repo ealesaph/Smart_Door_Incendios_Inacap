@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "972593934867",
+    "project_id": "smartdoorapp",
+    "storage_bucket": "smartdoorapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972593934867:android:8a383f0d479bd98bc385e6",
+        "android_client_info": {
+          "package_name": "com.example.smartdoorapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkCO1l52aWwQZ7i_8XG1OyGH5ELX4KSNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

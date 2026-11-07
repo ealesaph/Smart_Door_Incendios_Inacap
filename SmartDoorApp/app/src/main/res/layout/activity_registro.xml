@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F8F9FA"
+    tools:ignore="HardcodedText,Spelling">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Encabezado -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registro de usuario"
+            android:textColor="#1A252C"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Crea tu cuenta para acceder a la aplicación."
+            android:textColor="#6C757D"
+            android:textSize="14sp" />
+
+        <!-- Tarjeta Contenedora de Datos -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Datos de la cuenta"
+                    android:textColor="#1A252C"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Campo Correo Electrónico -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Correo electrónico"
+                    android:textColor="#343A40"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etRegistroEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:autofillHints="emailAddress"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="nombre@correo.cl"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="12dp" />
+
+                <!-- Campo RUT -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="RUT"
+                    android:textColor="#343A40"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etRegistroRut"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:autofillHints="username"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="12.345.678-9"
+                    android:inputType="text"
+                    android:paddingHorizontal="12dp" />
+
+                <!-- Campo Nombre y Apellido -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Nombre y apellido"
+                    android:textColor="#343A40"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etRegistroNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:autofillHints="personName"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="Ingresa tu nombre y apellido"
+                    android:inputType="textPersonName"
+                    android:paddingHorizontal="12dp" />
+
+                <!-- Campo Contraseña -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Contraseña"
+                    android:textColor="#343A40"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etRegistroPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="6dp"
+                    android:autofillHints="password"
+                    android:background="@android:drawable/editbox_background"
+                    android:hint="Usa al menos 8 caracteres"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="12dp" />
+
+                <!-- Botón Crear Cuenta -->
+                <Button
+                    android:id="@+id/btnCrearCuenta"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="#1D3039"
+                    android:text="Crear cuenta"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Opción volver a Login -->
+        <TextView
+            android:id="@+id/tvVolverLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="¿Ya tienes una cuenta? Ingresar"
+            android:textColor="#1D3039"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

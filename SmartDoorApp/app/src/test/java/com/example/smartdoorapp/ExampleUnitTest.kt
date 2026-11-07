@@ -1,17 +1,32 @@
 package com.example.smartdoorapp
 
+import org.junit.Assert.*
 import org.junit.Test
 
-import org.junit.Assert.*
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 class ExampleUnitTest {
+
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+    }
+
+    @Test
+    fun passwordValidation_validPassword_returnsTrue() {
+        assertTrue(ValidationUtils.isPasswordValid("Prueba123456"))
+    }
+
+    @Test
+    fun passwordValidation_shortPassword_returnsFalse() {
+        assertFalse(ValidationUtils.isPasswordValid("12345"))
+    }
+
+    @Test
+    fun rutValidation_validRut_returnsTrue() {
+        assertTrue(ValidationUtils.isRutValid("19.876.543-2"))
+    }
+
+    @Test
+    fun rutValidation_emptyRut_returnsFalse() {
+        assertFalse(ValidationUtils.isRutValid(""))
     }
 }
