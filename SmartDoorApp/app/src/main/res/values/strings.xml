@@ -1,9 +1,55 @@
 <resources>
-    <string name="app_name">AppIncendio</string>
+    <string name="app_name">Smart Door App</string>
+
+    <!-- Pantalla de Login -->
     <string name="titulo_ingreso">Ingreso de usuario</string>
     <string name="hint_usuario">Ingresa tu usuario o RUT</string>
     <string name="hint_contrasena">Contraseña</string>
     <string name="btn_ingresar">Ingresar</string>
     <string name="txt_crear_cuenta">¿No tienes una cuenta? Crear cuenta</string>
-</resources>
 
+    <!-- Pantalla de Resumen / Dashboard -->
+    <string name="bienvenido">Bienvenido</string>
+    <string name="salir">Salir</string>
+    <string name="monitoreo_incendio">Monitoreo de Incendio</string>
+    <string name="sensor_humo">Sensor de Humo:</string>
+    <string name="temperatura">Temperatura:</string>
+    <string name="temp_defecto">-- °C</string>
+    <string name="control_puerta">Control de Puerta</string>
+    <string name="estado_actual">Estado Actual:</string>
+    <string name="bloqueada">Bloqueada</string>
+    <string name="desbloquear_puerta">Desbloquear Puerta</string>
+
+    <!-- Pantalla de Alerta de Incendio -->
+    <string name="prototipo">prototipo</string>
+    <string name="titulo_incendio">Incendio</string>
+    <string name="subtitulo_ubicacion">Edificio Alameda · Planta 2</string>
+    <string name="nivel_incendio">Nivel de incendio</string>
+    <string name="simulado_en_vivo">Simulado en vivo</string>
+    <string name="descripcion_icono_fuego">Ícono de alerta de fuego</string>
+    <string name="estado_normal">Normal</string>
+    <string name="detalle_nivel_normal">Sin detección de llama ni altas temperaturas</string>
+    <string name="solo_personal_autorizado">Solo personal autorizado</string>
+    <string name="btn_abrir_puerta">Abrir puerta  ➔</string>
+    <string name="requiere_credencial">Requiere credencial y validación de permisos.</string>
+    <string name="btn_llamar_emergencias">Llamar a emergencias</string>
+    <string name="demostracion_llamada">Demostración: no se realizará ninguna llamada.</string>
+
+    <!-- Navegación Inferior -->
+    <string name="nav_resumen">Resumen</string>
+    <string name="nav_plano">Plano</string>
+    <string name="nav_puertas">Puertas</string>
+    <string name="nav_incendio">Incendio</string>
+
+    <!-- Cadenas para Credencial de Apertura -->
+    <string name="titulo_credencial">Credencial de apertura</string>
+    <string name="subtitulo_credencial">Verifica tu identidad antes de autorizar.</string>
+    <string name="volver_a_incendio">‹ Volver a Incendio</string>
+    <string name="instrucciones_credencial">Ingresa tu credencial para solicitar autorización de apertura.</string>
+    <string name="hint_usuario_rut">Ingresa tu usuario o RUT</string>
+    <string name="hint_contrasena2">Ingresa tu contraseña</string>
+    <string name="btn_validar_credencial">Validar credencial  ➔</string>
+    <string name="estado_pendiente_autorizacion">Apertura pendiente de autorización. No se ha enviado ninguna orden.</string>
+    <string name="cancelar_solicitud">Cancelar solicitud</string>
+    <string name="aviso_solicitud_simulada">Solicitud simulada. Esta pantalla no autoriza ni abre puertas reales.</string>
+</resources>

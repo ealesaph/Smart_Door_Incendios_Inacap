@@ -29,4 +29,19 @@ class ExampleUnitTest {
     fun rutValidation_emptyRut_returnsFalse() {
         assertFalse(ValidationUtils.isRutValid(""))
     }
+
+    @Test
+    fun fireAlert_smokeDetected_returnsTrue() {
+        assertTrue(ValidationUtils.isFireAlert(humoDetectado = true, temperatura = 25.0))
+    }
+
+    @Test
+    fun fireAlert_highTemperature_returnsTrue() {
+        assertTrue(ValidationUtils.isFireAlert(humoDetectado = false, temperatura = 50.0))
+    }
+
+    @Test
+    fun fireAlert_normalConditions_returnsFalse() {
+        assertFalse(ValidationUtils.isFireAlert(humoDetectado = false, temperatura = 22.0))
+    }
 }

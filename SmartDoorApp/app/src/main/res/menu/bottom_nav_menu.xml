@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_resumen"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/nav_resumen" />
+    <item
+        android:id="@+id/nav_plano"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/nav_plano" />
+    <item
+        android:id="@+id/nav_puertas"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/nav_puertas" />
+    <item
+        android:id="@+id/nav_incendio"
+        android:icon="@android:drawable/ic_dialog_alert"
+        android:title="@string/nav_incendio" />
+</menu>

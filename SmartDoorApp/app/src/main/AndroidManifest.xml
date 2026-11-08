@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- Permiso obligatorio para enviar notificaciones en Android 13+ (Galaxy S24) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,6 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartDoorApp">
 
+        <!-- Servicio para recibir Notificaciones Push de Firebase en segundo plano -->
+        <service
+            android:name=".FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <!-- Pantalla principal / Login -->
         <activity
             android:name=".MainActivity"
@@ -23,7 +35,6 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,10 +45,22 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Pantalla de Dashboard / Resumen IoT -->
         <activity
             android:name=".ResumenActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".IncendioActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CredencialAperturaActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".PuertasActivity"
+            android:exported="false" />
 
     </application>
 

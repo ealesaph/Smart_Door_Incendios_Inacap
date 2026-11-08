@@ -15,4 +15,8 @@ object ValidationUtils {
         val cleanRut = rut.replace(".", "").replace("-", "").uppercase()
         return cleanRut.length >= 8
     }
+
+    fun isFireAlert(humoDetectado: Boolean, temperatura: Double): Boolean {
+        return humoDetectado || temperatura > 45.0
+    }
 }
