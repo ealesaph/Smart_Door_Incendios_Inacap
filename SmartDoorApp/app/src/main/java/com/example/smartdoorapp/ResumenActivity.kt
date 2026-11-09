@@ -37,6 +37,7 @@ class ResumenActivity : AppCompatActivity() {
     private lateinit var btnAccionPuerta: Button
     private lateinit var btnCerrarSesion: Button
     private lateinit var btnGestionUsuarios: Button
+    private lateinit var btnModoDebug: Button
     private lateinit var bottomNav: BottomNavigationView
 
     private var estadoPuertaActual: Boolean = false
@@ -69,6 +70,7 @@ class ResumenActivity : AppCompatActivity() {
         btnAccionPuerta = findViewById(R.id.btnAccionPuerta)
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion)
         btnGestionUsuarios = findViewById(R.id.btnGestionUsuarios)
+        btnModoDebug = findViewById(R.id.btnModoDebug)
 
         // Configuración de Navegación Inferior
         bottomNav = findViewById(R.id.bottomNavigation)
@@ -138,6 +140,10 @@ class ResumenActivity : AppCompatActivity() {
             startActivity(Intent(this, GestionUsuariosActivity::class.java))
         }
 
+        btnModoDebug.setOnClickListener {
+            startActivity(Intent(this, DebugActivity::class.java))
+        }
+
         btnCerrarSesion.setOnClickListener {
             auth.signOut()
             val intent = Intent(this, MainActivity::class.java)
@@ -200,7 +206,7 @@ class ResumenActivity : AppCompatActivity() {
 
                         if (!alertaNotificada) {
                             notificationHelper.enviarAlertaIncendio(
-                                "🔥 ¡ALERTA DE INCENDIO DETECTADA!",
+                                "ALERTA DE INCENDIO DETECTADA",
                                 "Humo o alta temperatura ($temperatura °C) registrada."
                             )
 

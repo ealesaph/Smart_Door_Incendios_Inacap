@@ -1,13 +1,18 @@
 package com.example.smartdoorapp
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,6 +22,7 @@ import com.google.firebase.database.ValueEventListener
 class IncendioActivity : AppCompatActivity() {
 
     private val dbRef = FirebaseDatabase.getInstance().reference
+    private val NUMERO_EMERGENCIA = "+56930374007"
 
     private lateinit var tvNivelTexto: TextView
     private lateinit var tvDetalleNivel: TextView
@@ -25,6 +31,18 @@ class IncendioActivity : AppCompatActivity() {
     private lateinit var barAlta: View
     private lateinit var btnAbrirPuerta: Button
     private lateinit var btnLlamarEmergencias: Button
+
+    // Permiso de Llamada para Android
+    private val requestCallPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            realizarLlamadaDirecta()
+        } else {
+            Toast.makeText(this, "Permiso denegado. Abriendo marcador...", Toast.LENGTH_SHORT).show()
+            abrirMarcadorLlamada()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +88,36 @@ class IncendioActivity : AppCompatActivity() {
         }
 
         btnLlamarEmergencias.setOnClickListener {
-            Toast.makeText(this, "Demostración: no se realiza llamada real", Toast.LENGTH_LONG).show()
+            iniciarLlamadaEmergencia()
         }
 
         escucharNivelIncendio()
+    }
+
+    private fun iniciarLlamadaEmergencia() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            realizarLlamadaDirecta()
+        } else {
+            requestCallPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
+        }
+    }
+
+    private fun realizarLlamadaDirecta() {
+        try {
+            AuditoriaHelper.registrarEvento(
+                evento = "Llamada de emergencia realizada a $NUMERO_EMERGENCIA",
+                tipo = "EMERGENCIA"
+            )
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$NUMERO_EMERGENCIA"))
+            startActivity(intent)
+        } catch (e: Exception) {
+            abrirMarcadorLlamada()
+        }
+    }
+
+    private fun abrirMarcadorLlamada() {
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$NUMERO_EMERGENCIA"))
+        startActivity(intent)
     }
 
     private fun escucharNivelIncendio() {

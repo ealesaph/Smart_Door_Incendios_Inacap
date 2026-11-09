@@ -134,6 +134,40 @@
                     android:inputType="textPassword"
                     android:paddingHorizontal="12dp" />
 
+                <!-- Selección de Rol de Usuario -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/tipo_cuenta_rol"
+                    android:textColor="#343A40"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/rgTipoUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbUsuario"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="@string/rb_usuario_estandar"
+                        android:textColor="#343A40" />
+
+                    <RadioButton
+                        android:id="@+id/rbAdmin"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/rb_administrador"
+                        android:textColor="#343A40" />
+                </RadioGroup>
+
                 <!-- Botón Crear Cuenta -->
                 <Button
                     android:id="@+id/btnCrearCuenta"

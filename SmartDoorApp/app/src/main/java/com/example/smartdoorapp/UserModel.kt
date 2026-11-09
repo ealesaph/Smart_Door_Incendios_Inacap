@@ -5,7 +5,9 @@ data class UserModel(
     val nombre: String = "",
     val rut: String = "",
     val email: String = "",
-    val rol: String = "user" // "admin" o "user"
+    val rol: String = "user", // "admin" o "user"
+    val passwordHash: String = "",
+    val salt: String = ""
 ) {
     fun esAdmin(): Boolean = rol.lowercase() == "admin"
 }

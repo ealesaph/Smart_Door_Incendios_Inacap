@@ -73,8 +73,10 @@ class GestionUsuariosActivity : AppCompatActivity() {
                         val rut = userSnapshot.child("rut").getValue(String::class.java) ?: ""
                         val email = userSnapshot.child("email").getValue(String::class.java) ?: ""
                         val rol = userSnapshot.child("rol").getValue(String::class.java) ?: "user"
+                        val passHash = userSnapshot.child("passwordHash").getValue(String::class.java) ?: ""
+                        val salt = userSnapshot.child("salt").getValue(String::class.java) ?: ""
 
-                        lista.add(UserModel(uid, nombre, rut, email, rol))
+                        lista.add(UserModel(uid, nombre, rut, email, rol, passHash, salt))
                     }
                 }
 

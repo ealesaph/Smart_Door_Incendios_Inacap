@@ -44,4 +44,33 @@ class ExampleUnitTest {
     fun fireAlert_normalConditions_returnsFalse() {
         assertFalse(ValidationUtils.isFireAlert(humoDetectado = false, temperatura = 22.0))
     }
+
+    @Test
+    fun saltGeneration_returnsUniqueHexSalt() {
+        val salt1 = HashUtils.generarSalt()
+        val salt2 = HashUtils.generarSalt()
+        assertNotNull(salt1)
+        assertNotNull(salt2)
+        assertEquals(32, salt1.length) // 16 bytes en Hex = 32 caracteres
+        assertNotEquals(salt1, salt2)
+    }
+
+    @Test
+    fun passwordHashing_correctPassword_verifiesTrue() {
+        val password = "PasswordSegura123"
+        val salt = HashUtils.generarSalt()
+        val hash = HashUtils.hashPassword(password, salt)
+
+        assertTrue(HashUtils.verificarPassword(password, salt, hash))
+    }
+
+    @Test
+    fun passwordHashing_wrongPassword_verifiesFalse() {
+        val password = "PasswordSegura123"
+        val wrongPassword = "PasswordIncorrecta"
+        val salt = HashUtils.generarSalt()
+        val hash = HashUtils.hashPassword(password, salt)
+
+        assertFalse(HashUtils.verificarPassword(wrongPassword, salt, hash))
+    }
 }

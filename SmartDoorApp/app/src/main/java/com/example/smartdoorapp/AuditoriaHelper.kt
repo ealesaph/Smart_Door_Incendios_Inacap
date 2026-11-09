@@ -16,13 +16,36 @@ object AuditoriaHelper {
         tipo: String = "INFO",
         rutUsuario: String = "N/A"
     ) {
-        val userEmail = auth.currentUser?.email ?: "Sistema"
+        val user = auth.currentUser
+        val userEmail = user?.email ?: "Sistema"
+        val uid = user?.uid
         val timestamp = System.currentTimeMillis()
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
         val fechaFormateada = sdf.format(Date(timestamp))
 
         val key = dbRef.child("Historial").push().key ?: return
 
+        if (rutUsuario == "N/A" && uid != null) {
+            dbRef.child("Usuarios").child(uid).child("rut").get().addOnSuccessListener { snapshot ->
+                val rutEncontrado = snapshot.getValue(String::class.java) ?: "N/A"
+                guardarRegistro(key, evento, tipo, userEmail, rutEncontrado, timestamp, fechaFormateada)
+            }.addOnFailureListener {
+                guardarRegistro(key, evento, tipo, userEmail, rutUsuario, timestamp, fechaFormateada)
+            }
+        } else {
+            guardarRegistro(key, evento, tipo, userEmail, rutUsuario, timestamp, fechaFormateada)
+        }
+    }
+
+    private fun guardarRegistro(
+        key: String,
+        evento: String,
+        tipo: String,
+        userEmail: String,
+        rutUsuario: String,
+        timestamp: Long,
+        fechaFormateada: String
+    ) {
         val historialItem = mapOf(
             "id" to key,
             "evento" to evento,

@@ -3,6 +3,7 @@ package com.example.smartdoorapp
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class RegistroActivity : AppCompatActivity() {
         val etRut = findViewById<EditText>(R.id.etRegistroRut)
         val etNombre = findViewById<EditText>(R.id.etRegistroNombre)
         val etPassword = findViewById<EditText>(R.id.etRegistroPassword)
+        val rbAdmin = findViewById<RadioButton>(R.id.rbAdmin)
         val btnCrearCuenta = findViewById<Button>(R.id.btnCrearCuenta)
         val tvVolverLogin = findViewById<TextView>(R.id.tvVolverLogin)
 
@@ -44,6 +46,9 @@ class RegistroActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Determinar rol según la opción seleccionada en el formulario (o si el email contiene admin)
+            val rolAsignado = if (rbAdmin.isChecked || email.lowercase().contains("admin")) "admin" else "user"
+
             // Crear usuario en Firebase Authentication
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
@@ -51,16 +56,20 @@ class RegistroActivity : AppCompatActivity() {
                         val uid = auth.currentUser?.uid
 
                         if (uid != null) {
-                            // Asignar rol "admin" si el correo contiene admin, de lo contrario "user" por defecto
-                            val rolAsignado = if (email.lowercase().contains("admin")) "admin" else "user"
+                            // Generar Salt único y Hash SHA-256 de la contraseña para almacenar en BD
+                            val saltUnico = HashUtils.generarSalt()
+                            val hashPassword = HashUtils.hashPassword(password, saltUnico)
+
                             val userMap = mapOf(
                                 "rut" to rut,
                                 "nombre" to nombre,
                                 "email" to email,
-                                "rol" to rolAsignado
+                                "rol" to rolAsignado,
+                                "passwordHash" to hashPassword,
+                                "salt" to saltUnico
                             )
 
-                            // Guardar perfil en /Usuarios/{uid}
+                            // Guardar perfil seguro en /Usuarios/{uid}
                             FirebaseDatabase.getInstance().getReference("Usuarios").child(uid)
                                 .setValue(userMap)
                                 .addOnSuccessListener {
@@ -73,7 +82,7 @@ class RegistroActivity : AppCompatActivity() {
                                 }
                         }
 
-                        Toast.makeText(this, "¡Cuenta creada exitosamente!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "¡Cuenta creada exitosamente como $rolAsignado!", Toast.LENGTH_SHORT).show()
 
                         // Volver a la pantalla de Login
                         finish()

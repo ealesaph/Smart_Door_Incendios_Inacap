@@ -222,6 +222,19 @@
                 app:strokeColor="#101828"
                 app:strokeWidth="1dp" />
 
+            <!-- Opción de Debug / Pruebas IoT (Menú Principal) -->
+            <Button
+                android:id="@+id/btnModoDebug"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#F2F4F7"
+                android:text="@string/btn_modo_debug"
+                android:textColor="#344054"
+                app:strokeColor="#D0D5DD"
+                app:strokeWidth="1dp" />
+
         </LinearLayout>
     </ScrollView>
 

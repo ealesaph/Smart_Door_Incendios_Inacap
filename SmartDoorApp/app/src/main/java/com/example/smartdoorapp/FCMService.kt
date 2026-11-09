@@ -8,7 +8,7 @@ class FCMService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        val titulo = remoteMessage.notification?.title ?: "🚨 ALERTA DE SEGURIDAD"
+        val titulo = remoteMessage.notification?.title ?: "ALERTA DE SEGURIDAD"
         val cuerpo = remoteMessage.notification?.body ?: "Se detectó una anomalía en el sistema de incendios."
 
         val notificationHelper = NotificationHelper(applicationContext)

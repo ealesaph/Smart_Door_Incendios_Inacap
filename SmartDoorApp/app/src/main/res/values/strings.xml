@@ -8,6 +8,11 @@
     <string name="btn_ingresar">Ingresar</string>
     <string name="txt_crear_cuenta">¿No tienes una cuenta? Crear cuenta</string>
 
+    <!-- Pantalla de Registro -->
+    <string name="tipo_cuenta_rol">Tipo de cuenta (Rol)</string>
+    <string name="rb_usuario_estandar">Usuario Estándar</string>
+    <string name="rb_administrador">Administrador</string>
+
     <!-- Pantalla de Resumen / Dashboard -->
     <string name="bienvenido">Bienvenido</string>
     <string name="salir">Salir</string>
@@ -22,9 +27,10 @@
     <string name="rol_admin">Administrador</string>
     <string name="rol_usuario">Usuario Estándar</string>
     <string name="btn_gestion_usuarios">Gestión de Usuarios (Admin)</string>
+    <string name="btn_modo_debug">Panel de Debug / Pruebas IoT</string>
 
     <!-- Pantalla de Alerta de Incendio -->
-    <string name="prototipo">prototipo</string>
+    <string name="prototipo">Prototipo</string>
     <string name="titulo_incendio">Incendio</string>
     <string name="subtitulo_ubicacion">Edificio Alameda · Planta 2</string>
     <string name="nivel_incendio">Nivel de incendio</string>
@@ -33,10 +39,10 @@
     <string name="estado_normal">Normal</string>
     <string name="detalle_nivel_normal">Sin detección de llama ni altas temperaturas</string>
     <string name="solo_personal_autorizado">Solo personal autorizado</string>
-    <string name="btn_abrir_puerta">Abrir puerta  ➔</string>
+    <string name="btn_abrir_puerta">Abrir puerta</string>
     <string name="requiere_credencial">Requiere credencial y validación de permisos.</string>
-    <string name="btn_llamar_emergencias">Llamar a emergencias</string>
-    <string name="demostracion_llamada">Demostración: no se realizará ninguna llamada.</string>
+    <string name="btn_llamar_emergencias">Llamar a emergencias (+56930374007)</string>
+    <string name="demostracion_llamada">Llamada directa al contacto de emergencia configurado.</string>
 
     <!-- Navegación Inferior -->
     <string name="nav_resumen">Resumen</string>
@@ -47,11 +53,11 @@
     <!-- Cadenas para Credencial de Apertura -->
     <string name="titulo_credencial">Credencial de apertura</string>
     <string name="subtitulo_credencial">Verifica tu identidad antes de autorizar.</string>
-    <string name="volver_a_incendio">‹ Volver a Incendio</string>
+    <string name="volver_a_incendio">Volver a Incendio</string>
     <string name="instrucciones_credencial">Ingresa tu credencial para solicitar autorización de apertura.</string>
     <string name="hint_usuario_rut">Ingresa tu usuario o RUT</string>
     <string name="hint_contrasena2">Ingresa tu contraseña</string>
-    <string name="btn_validar_credencial">Validar credencial  ➔</string>
+    <string name="btn_validar_credencial">Validar credencial</string>
     <string name="estado_pendiente_autorizacion">Apertura pendiente de autorización. No se ha enviado ninguna orden.</string>
     <string name="cancelar_solicitud">Cancelar solicitud</string>
     <string name="aviso_solicitud_simulada">Solicitud simulada. Esta pantalla no autoriza ni abre puertas reales.</string>
@@ -63,14 +69,29 @@
     <string name="planta_1">Planta 1</string>
     <string name="planta_2">Planta 2</string>
     <string name="planta_3">Planta 3</string>
-    <string name="leyenda_cerrada"> Cerrada</string>
-    <string name="leyenda_abierta"> Abierta</string>
-    <string name="leyenda_sin_datos"> Sin datos</string>
-    <string name="btn_ver_detalle">Ver detalle de puerta  ➔</string>
+    <string name="leyenda_cerrada">Cerrada</string>
+    <string name="leyenda_abierta">Abierta</string>
+    <string name="leyenda_sin_datos">Sin datos</string>
+    <string name="btn_ver_detalle">Ver detalle de puerta</string>
 
     <!-- Gestión de Usuarios -->
     <string name="titulo_gestion_usuarios">Gestión de Usuarios</string>
     <string name="subtitulo_gestion_usuarios">Administrar roles y permisos de acceso</string>
     <string name="btn_hacer_admin">Hacer Admin</string>
     <string name="btn_hacer_user">Quitar Admin</string>
+
+    <!-- Pantalla de Debug -->
+    <string name="titulo_debug">Panel de Debug</string>
+    <string name="subtitulo_debug">Simulación de sensores y pruebas de sistema</string>
+    <string name="btn_simular_incendio">Simular Alerta Incendio (Humo + 55°C)</string>
+    <string name="btn_normalizar_sensores">Restablecer Sensores (Normal 22°C)</string>
+    <string name="btn_abrir_puerta_debug">Abrir Puerta (Simulación IoT)</string>
+    <string name="btn_cerrar_puerta_debug">Cerrar Puerta (Simulación IoT)</string>
+    <string name="btn_simular_llama_baja">Simular Llama Baja (35°C)</string>
+    <string name="btn_simular_llama_media">Simular Llama Media (45°C + Humo)</string>
+    <string name="btn_simular_llama_alta">Simular Llama Alta (65°C + Crítico)</string>
+
+    <!-- Acciones de Plano -->
+    <string name="btn_abrir_puerta_plano">Abrir Puerta Seleccionada</string>
+    <string name="btn_cerrar_puerta_plano">Cerrar Puerta Seleccionada</string>
 </resources>
