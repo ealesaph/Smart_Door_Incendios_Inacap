@@ -1,0 +1,11 @@
+package com.example.smartdoorapp
+
+data class UserModel(
+    val uid: String = "",
+    val nombre: String = "",
+    val rut: String = "",
+    val email: String = "",
+    val rol: String = "user" // "admin" o "user"
+) {
+    fun esAdmin(): Boolean = rol.lowercase() == "admin"
+}

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +19,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ResumenActivity : AppCompatActivity() {
 
@@ -26,15 +30,19 @@ class ResumenActivity : AppCompatActivity() {
     private lateinit var notificationHelper: NotificationHelper
 
     private lateinit var tvBienvenida: TextView
+    private lateinit var tvRolUsuario: TextView
     private lateinit var tvEstadoHumo: TextView
     private lateinit var tvTemperatura: TextView
     private lateinit var tvEstadoPuerta: TextView
     private lateinit var btnAccionPuerta: Button
     private lateinit var btnCerrarSesion: Button
+    private lateinit var btnGestionUsuarios: Button
     private lateinit var bottomNav: BottomNavigationView
 
     private var estadoPuertaActual: Boolean = false
     private var alertaNotificada: Boolean = false
+    private var esAdminActual: Boolean = false
+    private var rutUsuarioActual: String = "N/A"
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -54,11 +62,13 @@ class ResumenActivity : AppCompatActivity() {
         verificarPermisoNotificaciones()
 
         tvBienvenida = findViewById(R.id.tvBienvenida)
+        tvRolUsuario = findViewById(R.id.tvRolUsuario)
         tvEstadoHumo = findViewById(R.id.tvEstadoHumo)
         tvTemperatura = findViewById(R.id.tvTemperatura)
         tvEstadoPuerta = findViewById(R.id.tvEstadoPuerta)
         btnAccionPuerta = findViewById(R.id.btnAccionPuerta)
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion)
+        btnGestionUsuarios = findViewById(R.id.btnGestionUsuarios)
 
         // Configuración de Navegación Inferior
         bottomNav = findViewById(R.id.bottomNavigation)
@@ -78,7 +88,8 @@ class ResumenActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_plano -> {
-                    Toast.makeText(this, "Sección en desarrollo", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, PlanoActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false
@@ -86,13 +97,45 @@ class ResumenActivity : AppCompatActivity() {
         }
 
         val usuarioActual = auth.currentUser
-        tvBienvenida.text = "Hola, ${usuarioActual?.email ?: "Usuario"}"
+        val emailUser = usuarioActual?.email ?: "Usuario"
+        tvBienvenida.text = "Hola, $emailUser"
+
+        // Escuchar datos del usuario en Firebase para validar Rol (Admin / User)
+        cargarDatosUsuario()
 
         escucharLecturasIoT()
 
         btnAccionPuerta.setOnClickListener {
+            if (!esAdminActual) {
+                Toast.makeText(this, "Acceso denegado: Se requieren privilegios de Administrador", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             val nuevoEstado = !estadoPuertaActual
-            dbRef.child("Puerta").child("desbloqueada").setValue(nuevoEstado)
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val fechaActual = sdf.format(Date())
+            val userEmail = auth.currentUser?.email ?: "desconocido@correo.cl"
+
+            // Actualizar el nodo /Puerta con metadatos
+            val mapaPuerta = mapOf(
+                "desbloqueada" to nuevoEstado,
+                "modificado_por" to userEmail,
+                "ultima_modificacion" to fechaActual
+            )
+
+            dbRef.child("Puerta").updateChildren(mapaPuerta).addOnSuccessListener {
+                // Registrar en la Bitácora de Auditoría (/Historial)
+                val accionTexto = if (nuevoEstado) "Desbloqueo manual de puerta" else "Bloqueo manual de puerta"
+                AuditoriaHelper.registrarEvento(
+                    evento = accionTexto,
+                    tipo = "SEGURIDAD",
+                    rutUsuario = rutUsuarioActual
+                )
+            }
+        }
+
+        btnGestionUsuarios.setOnClickListener {
+            startActivity(Intent(this, GestionUsuariosActivity::class.java))
         }
 
         btnCerrarSesion.setOnClickListener {
@@ -110,6 +153,36 @@ class ResumenActivity : AppCompatActivity() {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+    }
+
+    private fun cargarDatosUsuario() {
+        val uid = auth.currentUser?.uid ?: return
+        dbRef.child("Usuarios").child(uid).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val nombre = snapshot.child("nombre").getValue(String::class.java) ?: ""
+                    val rol = snapshot.child("rol").getValue(String::class.java) ?: "user"
+                    rutUsuarioActual = snapshot.child("rut").getValue(String::class.java) ?: "N/A"
+                    esAdminActual = rol.lowercase() == "admin"
+
+                    if (nombre.isNotEmpty()) {
+                        tvBienvenida.text = "Hola, $nombre"
+                    }
+
+                    if (esAdminActual) {
+                        tvRolUsuario.text = "Rol: Administrador"
+                        tvRolUsuario.setTextColor(Color.parseColor("#B42318"))
+                        btnGestionUsuarios.visibility = View.VISIBLE
+                    } else {
+                        tvRolUsuario.text = "Rol: Usuario Estándar"
+                        tvRolUsuario.setTextColor(Color.parseColor("#475467"))
+                        btnGestionUsuarios.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun escucharLecturasIoT() {
@@ -130,6 +203,14 @@ class ResumenActivity : AppCompatActivity() {
                                 "🔥 ¡ALERTA DE INCENDIO DETECTADA!",
                                 "Humo o alta temperatura ($temperatura °C) registrada."
                             )
+
+                            // Registrar la Alerta de Incendio en el Historial de Auditoría (/Historial)
+                            AuditoriaHelper.registrarEvento(
+                                evento = "Alerta de temperatura alta ($temperatura °C)",
+                                tipo = "EMERGENCIA",
+                                rutUsuario = "N/A"
+                            )
+
                             alertaNotificada = true
                         }
                     } else {

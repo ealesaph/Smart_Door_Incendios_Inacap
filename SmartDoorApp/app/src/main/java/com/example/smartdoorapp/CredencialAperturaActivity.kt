@@ -67,16 +67,35 @@ class CredencialAperturaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Validar credencial contra Firebase Auth
+            // Validar credencial contra Firebase Auth y verificar rol de Administrador
             auth.signInWithEmailAndPassword(email, pass)
-                .addOnSuccessListener {
-                    tvEstadoAutorizacion.text = "¡Autorización concedida! Desbloqueando puerta..."
-
-                    // Orden de apertura de emergencia en Firebase Realtime Database
-                    dbRef.child("Puerta").child("desbloqueada").setValue(true)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Puerta autorizada y abierta con éxito", Toast.LENGTH_LONG).show()
-                            finish()
+                .addOnSuccessListener { authResult ->
+                    val uid = authResult.user?.uid ?: ""
+                    dbRef.child("Usuarios").child(uid).get()
+                        .addOnSuccessListener { snapshot ->
+                            val rol = snapshot.child("rol").getValue(String::class.java) ?: "user"
+                            val rutUser = snapshot.child("rut").getValue(String::class.java) ?: "N/A"
+                            if (rol.lowercase() == "admin") {
+                                tvEstadoAutorizacion.text = "¡Autorización concedida! Desbloqueando puerta..."
+                                dbRef.child("Puerta").child("desbloqueada").setValue(true)
+                                    .addOnSuccessListener {
+                                        AuditoriaHelper.registrarEvento(
+                                            evento = "Apertura autorizada mediante credencial",
+                                            tipo = "SEGURIDAD",
+                                            rutUsuario = rutUser
+                                        )
+                                        Toast.makeText(this, "Puerta autorizada y abierta por Administrador", Toast.LENGTH_LONG).show()
+                                        finish()
+                                    }
+                            } else {
+                                AuditoriaHelper.registrarEvento(
+                                    evento = "Intento denegado de apertura ($email no es Admin)",
+                                    tipo = "SEGURIDAD",
+                                    rutUsuario = rutUser
+                                )
+                                tvEstadoAutorizacion.text = "Acceso denegado: El usuario no tiene rol de Administrador."
+                                Toast.makeText(this, "Permiso denegado: Se requieren privilegios de Administrador para abrir puertas", Toast.LENGTH_LONG).show()
+                            }
                         }
                 }
                 .addOnFailureListener { error ->

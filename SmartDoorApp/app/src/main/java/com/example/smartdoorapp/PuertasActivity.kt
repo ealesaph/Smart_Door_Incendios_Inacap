@@ -41,7 +41,8 @@ class PuertasActivity : AppCompatActivity() {
                 }
                 R.id.nav_puertas -> true
                 R.id.nav_plano -> {
-                    Toast.makeText(this, "Navegando a Plano...", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, PlanoActivity::class.java))
+                    finish()
                     true
                 }
                 else -> false

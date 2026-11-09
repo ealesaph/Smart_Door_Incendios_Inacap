@@ -19,6 +19,9 @@
     <string name="estado_actual">Estado Actual:</string>
     <string name="bloqueada">Bloqueada</string>
     <string name="desbloquear_puerta">Desbloquear Puerta</string>
+    <string name="rol_admin">Administrador</string>
+    <string name="rol_usuario">Usuario Estándar</string>
+    <string name="btn_gestion_usuarios">Gestión de Usuarios (Admin)</string>
 
     <!-- Pantalla de Alerta de Incendio -->
     <string name="prototipo">prototipo</string>
@@ -52,4 +55,22 @@
     <string name="estado_pendiente_autorizacion">Apertura pendiente de autorización. No se ha enviado ninguna orden.</string>
     <string name="cancelar_solicitud">Cancelar solicitud</string>
     <string name="aviso_solicitud_simulada">Solicitud simulada. Esta pantalla no autoriza ni abre puertas reales.</string>
+
+    <!-- Cadenas para Plano por Planta -->
+    <string name="titulo_plano">Plano por planta</string>
+    <string name="subtitulo_plano">Edificio Alameda · actualizado</string>
+    <string name="planta_baja">Baja</string>
+    <string name="planta_1">Planta 1</string>
+    <string name="planta_2">Planta 2</string>
+    <string name="planta_3">Planta 3</string>
+    <string name="leyenda_cerrada"> Cerrada</string>
+    <string name="leyenda_abierta"> Abierta</string>
+    <string name="leyenda_sin_datos"> Sin datos</string>
+    <string name="btn_ver_detalle">Ver detalle de puerta  ➔</string>
+
+    <!-- Gestión de Usuarios -->
+    <string name="titulo_gestion_usuarios">Gestión de Usuarios</string>
+    <string name="subtitulo_gestion_usuarios">Administrar roles y permisos de acceso</string>
+    <string name="btn_hacer_admin">Hacer Admin</string>
+    <string name="btn_hacer_user">Quitar Admin</string>
 </resources>

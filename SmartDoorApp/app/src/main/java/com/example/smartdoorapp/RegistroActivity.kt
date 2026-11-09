@@ -50,15 +50,27 @@ class RegistroActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val uid = auth.currentUser?.uid
 
-                        // Guardar datos adicionales (RUT y Nombre) en Realtime Database
                         if (uid != null) {
+                            // Asignar rol "admin" si el correo contiene admin, de lo contrario "user" por defecto
+                            val rolAsignado = if (email.lowercase().contains("admin")) "admin" else "user"
                             val userMap = mapOf(
                                 "rut" to rut,
                                 "nombre" to nombre,
-                                "email" to email
+                                "email" to email,
+                                "rol" to rolAsignado
                             )
+
+                            // Guardar perfil en /Usuarios/{uid}
                             FirebaseDatabase.getInstance().getReference("Usuarios").child(uid)
                                 .setValue(userMap)
+                                .addOnSuccessListener {
+                                    // Registrar en el Historial de Auditoría
+                                    AuditoriaHelper.registrarEvento(
+                                        evento = "Nuevo usuario registrado ($nombre)",
+                                        tipo = "INFO",
+                                        rutUsuario = rut
+                                    )
+                                }
                         }
 
                         Toast.makeText(this, "¡Cuenta creada exitosamente!", Toast.LENGTH_SHORT).show()

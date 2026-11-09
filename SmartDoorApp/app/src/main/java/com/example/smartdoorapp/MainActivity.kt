@@ -8,65 +8,75 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private val dbRef = FirebaseDatabase.getInstance().reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
 
-        // 1. Verificar si el usuario ya inició sesión previamente
+        // Redireccionar si el usuario ya inició sesión
         if (auth.currentUser != null) {
-            irAHome()
+            startActivity(Intent(this, ResumenActivity::class.java))
+            finish()
             return
         }
 
         setContentView(R.layout.activity_login)
 
-        // NOTA: Se comenta la función de prueba porque ya validaste la inserción en Firebase
-        // probarInsercionFirebase()
-
-        val etUsuarioRut = findViewById<EditText>(R.id.etUsuarioRut)
-        val etContrasena = findViewById<EditText>(R.id.etContrasena)
+        val etEmail = findViewById<EditText>(R.id.etUsuarioRut)
+        val etPassword = findViewById<EditText>(R.id.etContrasena)
         val btnIngresar = findViewById<Button>(R.id.btnIngresar)
         val tvCrearCuenta = findViewById<TextView>(R.id.tvCrearCuenta)
 
-        // Acción del botón Ingresar
         btnIngresar.setOnClickListener {
-            val email = etUsuarioRut.text.toString().trim()
-            val contrasena = etContrasena.text.toString().trim()
+            val email = etEmail.text.toString().trim()
+            val password = etPassword.text.toString().trim()
 
-            if (email.isEmpty() || contrasena.isEmpty()) {
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Iniciar sesión con Firebase Auth
-            auth.signInWithEmailAndPassword(email, contrasena)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show()
-                        irAHome()
-                    } else {
-                        Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener { authResult ->
+                    val uid = authResult.user?.uid ?: return@addOnSuccessListener
+
+                    dbRef.child("Usuarios").child(uid).get().addOnSuccessListener { snapshot ->
+                        val rutUser = snapshot.child("rut").getValue(String::class.java) ?: "N/A"
+
+                        AuditoriaHelper.registrarEvento(
+                            evento = "Inicio de sesión exitoso",
+                            tipo = "SEGURIDAD",
+                            rutUsuario = rutUser
+                        )
+
+                        Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, ResumenActivity::class.java))
+                        finish()
+                    }.addOnFailureListener {
+                        startActivity(Intent(this, ResumenActivity::class.java))
+                        finish()
                     }
+                }
+                .addOnFailureListener { error ->
+                    AuditoriaHelper.registrarEvento(
+                        evento = "Intento fallido de inicio de sesión ($email)",
+                        tipo = "SEGURIDAD",
+                        rutUsuario = "N/A"
+                    )
+
+                    Toast.makeText(this, "Error de autenticación: ${error.message}", Toast.LENGTH_LONG).show()
                 }
         }
 
-        // Navegación hacia la pantalla de Registro
         tvCrearCuenta.setOnClickListener {
-            val intent = Intent(this, RegistroActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, RegistroActivity::class.java))
         }
-    }
-
-    // Función auxiliar para navegar a la pantalla de Resumen IoT
-    private fun irAHome() {
-        val intent = Intent(this, ResumenActivity::class.java)
-        startActivity(intent)
-        finish() // Cierra MainActivity para no volver al Login presionando el botón 'Atrás'
     }
 }

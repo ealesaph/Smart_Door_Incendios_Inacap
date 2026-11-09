@@ -53,11 +53,13 @@ class IncendioActivity : AppCompatActivity() {
                     finish()
                     true
                 }
-                R.id.nav_incendio -> true
-                else -> {
-                    Toast.makeText(this, "Sección en desarrollo", Toast.LENGTH_SHORT).show()
+                R.id.nav_plano -> {
+                    startActivity(Intent(this, PlanoActivity::class.java))
+                    finish()
                     true
                 }
+                R.id.nav_incendio -> true
+                else -> false
             }
         }
 

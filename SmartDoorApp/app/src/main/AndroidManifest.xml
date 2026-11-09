@@ -62,6 +62,18 @@
             android:name=".PuertasActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".PlanoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".GestionUsuariosActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".AuditoriaActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

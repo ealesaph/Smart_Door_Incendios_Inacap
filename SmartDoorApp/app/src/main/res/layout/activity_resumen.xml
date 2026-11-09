@@ -23,17 +23,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/tvBienvenida"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@id/btnCerrarSesion"
-                    android:text="@string/bienvenido"
-                    android:textColor="#101828"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvBienvenida"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bienvenido"
+                        android:textColor="#101828"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvRolUsuario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Rol: Cargando..."
+                        android:textColor="#667085"
+                        android:textSize="13sp" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btnCerrarSesion"
@@ -193,6 +208,19 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <!-- Botón de Administración de Usuarios (Solo visible para Admin) -->
+            <Button
+                android:id="@+id/btnGestionUsuarios"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/btn_gestion_usuarios"
+                android:textColor="#101828"
+                android:visibility="gone"
+                app:strokeColor="#101828"
+                app:strokeWidth="1dp" />
 
         </LinearLayout>
     </ScrollView>
